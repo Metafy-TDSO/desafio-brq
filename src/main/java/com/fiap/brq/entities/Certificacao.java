@@ -3,13 +3,17 @@ package com.fiap.brq.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_certificacao")
@@ -23,19 +27,20 @@ public class Certificacao implements Serializable{
 	
 	private String nomeCertificacao;
 	
-	@ManyToOne
-	@JoinColumn(name="candidato_id")
-	private Candidato candidato;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="skill_id")
+	@JsonIgnore
+	private Skill skill;
 
 	public Certificacao() {
 		
 	}
 
-	public Certificacao(Long id, String nomeCertificacao, Candidato candidato) {
+	public Certificacao(Long id, String nomeCertificacao, Skill skill) {
 		super();
 		this.id = id;
 		this.nomeCertificacao = nomeCertificacao;
-		this.candidato = candidato;
+		this.skill = skill;
 	}
 	
 	public Certificacao(Long id, String nomeCertificacao) {
@@ -60,13 +65,14 @@ public class Certificacao implements Serializable{
 	public void setNomeCertificacao(String nomeCertificacao) {
 		this.nomeCertificacao = nomeCertificacao;
 	}
+	
 
-	public Candidato getCandidato() {
-		return candidato;
+	public Skill getSkill() {
+		return skill;
 	}
 
-	public void setCandidato(Candidato candidato) {
-		this.candidato = candidato;
+	public void setSkill(Skill skill) {
+		this.skill = skill;
 	}
 
 	@Override

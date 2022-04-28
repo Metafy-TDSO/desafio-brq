@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,14 +22,7 @@ import com.fiap.brq.services.CandidatoService;
 public class CandidatoController {
 	
 	@Autowired
-	private CandidatoService service;
-	
-	@GetMapping
-	public ResponseEntity<List<Candidato>> findAll(){
-		List<Candidato> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-
-	}
+	private CandidatoService service;	
 	
 	@PostMapping
 	public ResponseEntity<Candidato> insert(@RequestBody Candidato candidato) {
@@ -35,6 +30,14 @@ public class CandidatoController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(candidato.getId()).toUri();
 		return ResponseEntity.created(uri).body(candidato);
 	}
+	
+	@GetMapping
+	public ResponseEntity<List<Candidato>> buscarTudo(@RequestParam String conteudo){
+		List<Candidato> resultado = service.buscarTudo(conteudo);
+		return ResponseEntity.ok().body(resultado);
+
+	}
+
 	
 	
 	

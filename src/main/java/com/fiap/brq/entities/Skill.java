@@ -1,39 +1,46 @@
 package com.fiap.brq.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_skill")
-public class Skill implements Serializable{	
-	
+public class Skill implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String Linguagem;
-	
+
 	private int anosExperiencia;
 
-	@ManyToOne
-	@JoinColumn(name="candidato_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "candidato_id")
+	@JsonIgnore
 	private Candidato candidato;
-	
+
+	@OneToMany(mappedBy = "skill", cascade = CascadeType.PERSIST)
+	private List<Certificacao> certificados;
+
 	public Skill() {
-		
+
 	}
 
 	public Skill(Long id, String linguagem, int anosExperiencia, Candidato candidato) {
@@ -43,12 +50,21 @@ public class Skill implements Serializable{
 		this.anosExperiencia = anosExperiencia;
 		this.candidato = candidato;
 	}
-	
+
 	public Skill(Long id, String linguagem, int anosExperiencia) {
 		super();
 		this.id = id;
 		Linguagem = linguagem;
 		this.anosExperiencia = anosExperiencia;
+	}
+
+	public Skill(Long id, String linguagem, int anosExperiencia, Candidato candidato, List<Certificacao> certificados) {
+		super();
+		this.id = id;
+		Linguagem = linguagem;
+		this.anosExperiencia = anosExperiencia;
+		this.candidato = candidato;
+		this.certificados = certificados;
 	}
 
 	public Long getId() {
@@ -81,6 +97,14 @@ public class Skill implements Serializable{
 
 	public void setCandidato(Candidato candidato) {
 		this.candidato = candidato;
+	}	
+
+	public List<Certificacao> getCertificados() {
+		return certificados;
+	}
+
+	public void setCertificados(List<Certificacao> certificados) {
+		this.certificados = certificados;
 	}
 
 	public static long getSerialversionuid() {
@@ -104,7 +128,5 @@ public class Skill implements Serializable{
 		return Objects.equals(Linguagem, other.Linguagem) && anosExperiencia == other.anosExperiencia
 				&& Objects.equals(candidato, other.candidato) && Objects.equals(id, other.id);
 	}
-	
-	
 
 }

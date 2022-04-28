@@ -1,12 +1,12 @@
 package com.fiap.brq.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,8 +28,10 @@ public class Candidato implements Serializable {
 
 	private String nome;
 
+    @Column(unique = true)
 	private String cpf;
 
+    @Column(unique = true)
 	private String email;
 
 	private String genero;
@@ -37,10 +39,7 @@ public class Candidato implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
 	private Calendar dataNascimento;
 
-	@OneToMany(mappedBy = "candidato", cascade=CascadeType.PERSIST)
-	private List<Certificacao> certificados;
-
-	@OneToMany(mappedBy = "candidato", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy = "candidato", cascade = CascadeType.PERSIST)
 	private List<Skill> skills;
 
 	public Candidato() {
@@ -56,10 +55,10 @@ public class Candidato implements Serializable {
 		this.genero = genero;
 		this.dataNascimento = dataNascimento;
 
-	}		
+	}
 
 	public Candidato(Long id, String nome, String cpf, String email, String genero, Calendar dataNascimento,
-			List<Certificacao> certificados, List<Skill> skills) {
+			List<Skill> skills) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -67,7 +66,6 @@ public class Candidato implements Serializable {
 		this.email = email;
 		this.genero = genero;
 		this.dataNascimento = dataNascimento;
-		this.certificados = certificados;
 		this.skills = skills;
 	}
 
@@ -117,14 +115,6 @@ public class Candidato implements Serializable {
 
 	public void setDataNascimento(Calendar dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}	
-
-	public List<Certificacao> getCertificados() {
-		return certificados;
-	}
-
-	public void setCertificados(List<Certificacao> certificados) {
-		this.certificados = certificados;
 	}
 
 	public List<Skill> getSkills() {
