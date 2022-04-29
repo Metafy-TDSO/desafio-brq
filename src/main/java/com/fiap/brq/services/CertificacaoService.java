@@ -11,20 +11,17 @@ import com.fiap.brq.repositories.CertificacaoRepository;
 
 @Service
 public class CertificacaoService {
+    @Autowired
+    private CertificacaoRepository repository;
 
-	@Autowired
-	private CertificacaoRepository repository;
-	
-	public Certificacao findOrCreateByName(String name, Set<Skill> skills) {		
-		Certificacao cert = repository.findByNomeCertificacao(name);
-		if (cert == null) cert = repository.save(new Certificacao(null, name, skills));
-		return cert;
-	};
-		
-	public Certificacao insert(Certificacao certificacao) {
-		return repository.save(certificacao);
-	}
-	
-	
-	
+    public Certificacao findOrCreateByName(String name, Set<Skill> skills) {
+	Certificacao cert = repository.findByNomeCertificacao(name);
+	if (cert == null)
+	    cert = repository.save(new Certificacao(null, name, skills));
+	return cert;
+    };
+
+    public Certificacao insert(Certificacao certificacao) {
+	return repository.save(certificacao);
+    }
 }

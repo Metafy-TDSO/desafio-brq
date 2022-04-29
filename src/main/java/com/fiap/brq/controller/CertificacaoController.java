@@ -16,15 +16,14 @@ import com.fiap.brq.services.CertificacaoService;
 @RestController
 @RequestMapping(value = "/certificacoes")
 public class CertificacaoController {
-	
-	@Autowired
-	private CertificacaoService service;	
-	
-	@PostMapping
-	public ResponseEntity<Certificacao> insert(@RequestBody Certificacao certificacao) {
-		certificacao = service.insert(certificacao);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(certificacao.getId()).toUri();
-		return ResponseEntity.created(uri).body(certificacao);
-	}
+    @Autowired
+    private CertificacaoService service;
 
+    @PostMapping
+    public ResponseEntity<Certificacao> insert(@RequestBody Certificacao certificacao) {
+	certificacao = service.insert(certificacao);
+	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(certificacao.getId())
+		.toUri();
+	return ResponseEntity.created(uri).body(certificacao);
+    }
 }

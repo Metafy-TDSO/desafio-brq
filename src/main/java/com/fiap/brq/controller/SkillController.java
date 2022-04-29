@@ -16,14 +16,13 @@ import com.fiap.brq.services.SkillService;
 @RestController
 @RequestMapping(value = "/skills")
 public class SkillController {
+    @Autowired
+    private SkillService service;
 
-	@Autowired
-	private SkillService service;
-
-	@PostMapping
-	public ResponseEntity<Skill> insert(@RequestBody Skill skill) {
-		skill = service.insert(skill);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(skill.getId()).toUri();
-		return ResponseEntity.created(uri).body(skill);
-	}
+    @PostMapping
+    public ResponseEntity<Skill> insert(@RequestBody Skill skill) {
+	skill = service.insert(skill);
+	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(skill.getId()).toUri();
+	return ResponseEntity.created(uri).body(skill);
+    }
 }

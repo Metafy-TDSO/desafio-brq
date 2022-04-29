@@ -3,37 +3,32 @@ package com.fiap.brq.dto;
 import java.util.List;
 
 public class CreateCertificacaoDTO {
-	
-	private String nomeCertificacao;
-	
-	private List<String> skills;
-	
-	public CreateCertificacaoDTO() {
-		
-	}
+    private String nomeCertificacao;
 
-	public CreateCertificacaoDTO(String nomeCertificacao, List<String> skills) {
-		super();
-		this.nomeCertificacao = nomeCertificacao;
-		this.skills = skills;
-	}
+    private List<String> skills;
 
-	public String getNomeCertificacao() {
-		return nomeCertificacao;
-	}
+    public CreateCertificacaoDTO() {
+    }
 
-	public void setNomeCertificacao(String nomeCertificacao) {
-		this.nomeCertificacao = nomeCertificacao;
-	}
+    public CreateCertificacaoDTO(String nomeCertificacao, List<String> skills) {
+	super();
+	this.nomeCertificacao = nomeCertificacao;
+	this.skills = skills;
+    }
 
-	public List<String> getSkills() {
-		return skills;
-	}
+    public String getNomeCertificacao() {
+	return nomeCertificacao;
+    }
 
-	public void setSkills(List<String> skills) {
-		this.skills = skills;
-	}
-	
-	
+    public List<String> getSkills() {
+	return skills;
+    }
 
+    public void setNomeCertificacao(String nomeCertificacao) {
+	this.nomeCertificacao = nomeCertificacao;
+    }
+
+    public void setSkills(List<String> skills) {
+	this.skills = skills;
+    }
 }
