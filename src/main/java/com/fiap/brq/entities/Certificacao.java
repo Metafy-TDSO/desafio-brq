@@ -1,7 +1,9 @@
 package com.fiap.brq.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,45 +12,51 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_certificacao")
-public class Certificacao implements Serializable{	
-	
+public class Certificacao implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nomeCertificacao;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="skill_id")
+
+	@ManyToMany(mappedBy = "certs")
 	@JsonIgnore
-	private Skill skill;
+	private Set<Candidato> candidato;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "tb_skill_certificacao", joinColumns = {
+			@JoinColumn(name = "certificacao_id") }, inverseJoinColumns = { @JoinColumn(name = "skill_id") })
+	private Set<Skill> skills;
 
 	public Certificacao() {
-		
+
 	}
 
-	public Certificacao(Long id, String nomeCertificacao, Skill skill) {
+	public Certificacao(Long id, String nomeCertificacao, Set<Skill> skills) {
 		super();
 		this.id = id;
 		this.nomeCertificacao = nomeCertificacao;
-		this.skill = skill;
+		this.skills = skills;
 	}
-	
+
 	public Certificacao(Long id, String nomeCertificacao) {
 		super();
 		this.id = id;
 		this.nomeCertificacao = nomeCertificacao;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -65,14 +73,13 @@ public class Certificacao implements Serializable{
 	public void setNomeCertificacao(String nomeCertificacao) {
 		this.nomeCertificacao = nomeCertificacao;
 	}
-	
 
-	public Skill getSkill() {
-		return skill;
+	public Set<Skill> getSkills() {
+		return skills;
 	}
 
-	public void setSkill(Skill skill) {
-		this.skill = skill;
+	public void setSkills(Set<Skill> skills) {
+		this.skills = skills;
 	}
 
 	@Override
@@ -91,9 +98,5 @@ public class Certificacao implements Serializable{
 		Certificacao other = (Certificacao) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
-	
-	
 }

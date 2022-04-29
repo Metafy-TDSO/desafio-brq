@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -39,8 +43,17 @@ public class Candidato implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
 	private Calendar dataNascimento;
 
-	@OneToMany(mappedBy = "candidato", cascade = CascadeType.PERSIST)
-	private List<Skill> skills;
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name="tb_candidato_skill", 
+			   joinColumns={@JoinColumn(name="candidato_id")}, 
+			   inverseJoinColumns={@JoinColumn(name="skill_id")})
+	private Set<Skill> skills;
+	
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name="tb_candidato_certificacao", 
+			   joinColumns={@JoinColumn(name="candidato_id")}, 
+			   inverseJoinColumns={@JoinColumn(name="certificacao_id")})
+	private Set<Certificacao> certs;
 
 	public Candidato() {
 
@@ -58,7 +71,7 @@ public class Candidato implements Serializable {
 	}
 
 	public Candidato(Long id, String nome, String cpf, String email, String genero, Calendar dataNascimento,
-			List<Skill> skills) {
+			Set<Skill> skills) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -67,6 +80,19 @@ public class Candidato implements Serializable {
 		this.genero = genero;
 		this.dataNascimento = dataNascimento;
 		this.skills = skills;
+	}
+
+	public Candidato(Long id, String nome, String cpf, String email, String genero, Calendar dataNascimento,
+			Set<Skill> skills, Set<Certificacao> certs) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+		this.genero = genero;
+		this.dataNascimento = dataNascimento;
+		this.skills = skills;
+		this.certs = certs;
 	}
 
 	public Long getId() {
@@ -117,12 +143,20 @@ public class Candidato implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public List<Skill> getSkills() {
+	public Set<Skill> getSkills() {
 		return skills;
 	}
 
-	public void setSkills(List<Skill> skills) {
+	public void setSkills(Set<Skill> skills) {
 		this.skills = skills;
+	}
+
+	public Set<Certificacao> getCerts() {
+		return certs;
+	}
+
+	public void setCerts(Set<Certificacao> certs) {
+		this.certs = certs;
 	}
 
 	@Override

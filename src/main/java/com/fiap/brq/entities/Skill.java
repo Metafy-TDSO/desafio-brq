@@ -3,6 +3,7 @@ package com.fiap.brq.entities;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,44 +30,46 @@ public class Skill implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String Linguagem;
-
-	private int anosExperiencia;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "candidato_id")
+	private String linguagem;
+	
+	@ManyToMany(mappedBy = "skills")
 	@JsonIgnore
-	private Candidato candidato;
-
-	@OneToMany(mappedBy = "skill", cascade = CascadeType.PERSIST)
-	private List<Certificacao> certificados;
+	private Set<Certificacao> certificacao;
+	
+	@ManyToMany(mappedBy="skills")
+	@JsonIgnore
+	private Set<Candidato> candidatos;
 
 	public Skill() {
 
 	}
-
-	public Skill(Long id, String linguagem, int anosExperiencia, Candidato candidato) {
+	
+	public Skill(Long id, String linguagem) {
 		super();
 		this.id = id;
-		Linguagem = linguagem;
-		this.anosExperiencia = anosExperiencia;
-		this.candidato = candidato;
+		this.linguagem = linguagem;
 	}
 
-	public Skill(Long id, String linguagem, int anosExperiencia) {
+	public Skill(Long id, String linguagem, Set<Certificacao> certificacao) {
 		super();
 		this.id = id;
-		Linguagem = linguagem;
-		this.anosExperiencia = anosExperiencia;
+		this.linguagem = linguagem;
+		this.certificacao = certificacao;
+	}
+	
+	public Skill(Long id, Set<Candidato> candidatos, String linguagem) {
+		super();
+		this.id = id;
+		this.linguagem = linguagem;
+		this.candidatos = candidatos;
 	}
 
-	public Skill(Long id, String linguagem, int anosExperiencia, Candidato candidato, List<Certificacao> certificados) {
+	public Skill(Long id, String linguagem, Set<Certificacao> certificacao, Set<Candidato> candidatos) {
 		super();
 		this.id = id;
-		Linguagem = linguagem;
-		this.anosExperiencia = anosExperiencia;
-		this.candidato = candidato;
-		this.certificados = certificados;
+		this.linguagem = linguagem;
+		this.certificacao = certificacao;
+		this.candidatos = candidatos;
 	}
 
 	public Long getId() {
@@ -75,36 +80,28 @@ public class Skill implements Serializable {
 		this.id = id;
 	}
 
-	public String getLinguagem() {
-		return Linguagem;
+	public String getlinguagem() {
+		return linguagem;
 	}
 
-	public void setLinguagem(String linguagem) {
-		Linguagem = linguagem;
+	public void setlinguagem(String linguagem) {
+		this.linguagem = linguagem;
 	}
 
-	public int getAnosExperiencia() {
-		return anosExperiencia;
+	public Set<Certificacao> getCertificacao() {
+		return certificacao;
 	}
 
-	public void setAnosExperiencia(int anosExperiencia) {
-		this.anosExperiencia = anosExperiencia;
+	public void setCertificacao(Set<Certificacao> certificacao) {
+		this.certificacao = certificacao;
 	}
 
-	public Candidato getCandidato() {
-		return candidato;
+	public Set<Candidato> getCandidatos() {
+		return candidatos;
 	}
 
-	public void setCandidato(Candidato candidato) {
-		this.candidato = candidato;
-	}	
-
-	public List<Certificacao> getCertificados() {
-		return certificados;
-	}
-
-	public void setCertificados(List<Certificacao> certificados) {
-		this.certificados = certificados;
+	public void setCandidatos(Set<Candidato> candidatos) {
+		this.candidatos = candidatos;
 	}
 
 	public static long getSerialversionuid() {
@@ -113,7 +110,7 @@ public class Skill implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Linguagem, anosExperiencia, candidato, id);
+		return Objects.hash(candidatos, certificacao, id, linguagem);
 	}
 
 	@Override
@@ -125,8 +122,8 @@ public class Skill implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Skill other = (Skill) obj;
-		return Objects.equals(Linguagem, other.Linguagem) && anosExperiencia == other.anosExperiencia
-				&& Objects.equals(candidato, other.candidato) && Objects.equals(id, other.id);
+		return Objects.equals(candidatos, other.candidatos) && Objects.equals(certificacao, other.certificacao)
+				&& Objects.equals(id, other.id) && Objects.equals(linguagem, other.linguagem);
 	}
 
 }
