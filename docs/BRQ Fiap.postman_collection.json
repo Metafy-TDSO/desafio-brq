@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "2eb19d05-ab83-402e-b472-c09f32cba5b2",
+		"name": "BRQ Fiap",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Busca candidato",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/candidatos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"candidatos"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "gui",
+							"disabled": true
+						},
+						{
+							"key": "skills",
+							"value": "sql, scrum",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Guizin\",\r\n    \"cpf\": \"13208914890\",\r\n    \"email\": \"guigui@gmail.com\",\r\n    \"genero\": \"Masculino\",\r\n    \"dataNascimento\": \"30-04-2022\",\r\n    \"skills\": [\"Elixir\", \"SCRUM\"],\r\n    \"certs\": [  \r\n        {\r\n            \"nomeCertificacao\": \"Elixir Advanced\",\r\n            \"skills\": [\"Elixir\"]\r\n        },\r\n        {\r\n            \"nomeCertificacao\": \"SCRUM algumacoisa\",\r\n            \"skills\": [\"SCRUM\"]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/candidatos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"candidatos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
