@@ -1,10 +1,6 @@
 package com.fiap.brq.config;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,56 +20,73 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-	Skill sk1 = new Skill(null, "Java");
-	Skill sk2 = new Skill(null, "SQL");
-	Skill sk3 = new Skill(null, "Python");
-	Skill sk4 = new Skill(null, "JavaScript");
-	Skill sk5 = new Skill(null, "TypeScript");
-	Skill sk6 = new Skill(null, "C#");
+	Skill java = new Skill(null, "Java");
+	Skill sql = new Skill(null, "SQL");
+	Skill python = new Skill(null, "Python");
+	Skill js = new Skill(null, "JavaScript");
+	Skill ts = new Skill(null, "TypeScript");
+	Skill csharp = new Skill(null, "C#");
+	Skill scrum = new Skill(null, "Scrum");
 
-	Set<Skill> c1_skill = new HashSet<Skill>();
-	c1_skill.add(sk1);
-	c1_skill.add(sk2);
+	List<Skill> scrumSkills = new ArrayList<>();
+	scrumSkills.add(scrum);
 
-	Set<Skill> c2_skill = new HashSet<Skill>();
-	c2_skill.add(sk3);
+	List<Skill> tsWeb = new ArrayList<>();
+	tsWeb.add(js);
+	tsWeb.add(ts);
+	tsWeb.add(sql);
+	tsWeb.add(scrum);
 
-	Set<Skill> c3_skill = new HashSet<Skill>();
-	c3_skill.add(sk4);
+	List<Skill> jsSimple = new ArrayList<>();
+	jsSimple.add(js);
 
-	Set<Skill> c4_skill = new HashSet<Skill>();
-	c4_skill.add(sk5);
-	c4_skill.add(sk6);
+	List<Skill> javaBackend = new ArrayList<>();
+	javaBackend.add(scrum);
+	javaBackend.add(sql);
+	javaBackend.add(java);
 
-	Certificacao cert1 = new Certificacao(null, "Java Hibernate", c1_skill);
-	Certificacao cert2 = new Certificacao(null, "Python Web", c2_skill);
-	Certificacao cert3 = new Certificacao(null, "Vanilla Javascript", c3_skill);
-	Certificacao cert4 = new Certificacao(null, "Typescript", c4_skill);
-	Certificacao cert5 = new Certificacao(null, "C# .NET", c4_skill);
+	List<Skill> pythonWeb = new ArrayList<>();
+	pythonWeb.add(js);
+	pythonWeb.add(python);
 
-	Set<Certificacao> c1_cert = new HashSet<Certificacao>();
-	c1_cert.add(cert1);
+	List<Skill> csharpWeb = new ArrayList<>();
+	csharpWeb.add(js);
+	csharpWeb.add(csharp);
 
-	Set<Certificacao> c2_cert = new HashSet<Certificacao>();
-	c2_cert.add(cert2);
+	Certificacao javaCert = new Certificacao(null, "Java Hibernate", javaBackend);
+	Certificacao pythonCert = new Certificacao(null, "Django Web - Python", pythonWeb);
+	Certificacao jsCert = new Certificacao(null, "Vanilla Javascript", jsSimple);
+	Certificacao tsCert = new Certificacao(null, "Typescript Advanced", tsWeb);
+	Certificacao csharpCert = new Certificacao(null, ".NET Udemy", csharpWeb);
+	Certificacao scrumCert = new Certificacao(null, "Srum Master", scrumSkills);
 
-	Set<Certificacao> c3_cert = new HashSet<Certificacao>();
-	c3_cert.add(cert3);
+	List<Certificacao> certsDiego = new ArrayList<>();
+	certsDiego.add(javaCert);
+	certsDiego.add(scrumCert);
 
-	Set<Certificacao> c4_cert = new HashSet<Certificacao>();
-	c4_cert.add(cert4);
-	c4_cert.add(cert5);
+	List<Certificacao> certsTiago = new ArrayList<>();
+	certsTiago.add(pythonCert);
+
+	List<Certificacao> certsEnzo = new ArrayList<>();
+	certsEnzo.add(csharpCert);
+	certsEnzo.add(jsCert);
+
+	List<Certificacao> certsGuilherme = new ArrayList<>();
+	certsGuilherme.add(javaCert);
+	certsGuilherme.add(tsCert);
+	certsGuilherme.add(jsCert);
+	certsGuilherme.add(scrumCert);
 
 	Candidato c1 = new Candidato(null, "Diego", "37910013884", "diego.cruz@gmail.com", "Masculino",
-		new GregorianCalendar(1991, Calendar.FEBRUARY, 5), c1_skill, c1_cert);
+		new GregorianCalendar(1991, Calendar.FEBRUARY, 5), javaBackend, certsDiego);
 	Candidato c2 = new Candidato(null, "Tiago", "123456789", "tiago@gmail.com", "Masculino",
-		new GregorianCalendar(1998, Calendar.MAY, 9), c2_skill, c2_cert);
+		new GregorianCalendar(1998, Calendar.MAY, 9), pythonWeb, certsTiago);
 	Candidato c3 = new Candidato(null, "Enzo", "987654321", "enzo@gmail.com", "Masculino",
-		new GregorianCalendar(2000, Calendar.APRIL, 15), c3_skill, c3_cert);
+		new GregorianCalendar(2000, Calendar.APRIL, 15), csharpWeb, certsEnzo);
 	Candidato c4 = new Candidato(null, "Guilherme", "65498321", "guilherme@gmail.com", "Masculino",
-		new GregorianCalendar(2001, Calendar.DECEMBER, 23), c4_skill, c4_cert);
+		new GregorianCalendar(2001, Calendar.DECEMBER, 23), tsWeb, certsGuilherme);
 	Candidato c5 = new Candidato(null, "Hugo", "312457975", "hugo@gmail.com", "Masculino",
-		new GregorianCalendar(2003, Calendar.OCTOBER, 7), c2_skill);
+		new GregorianCalendar(2003, Calendar.OCTOBER, 7), jsSimple);
 
 	candidatoRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5));
     }
