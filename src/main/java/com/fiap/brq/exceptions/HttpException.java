@@ -14,10 +14,12 @@ public class HttpException {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorDefault> badRequest(BadRequestException e, HttpServletRequest request) {
 	String error = "Solicitação falhou";
+
 	HttpStatus status = HttpStatus.BAD_REQUEST;
+
 	ErrorDefault err = new ErrorDefault(Instant.now(), status.value(), error, e.getMessage(),
 		request.getRequestURI());
-	return ResponseEntity.status(status).body(err);
 
+	return ResponseEntity.status(status).body(err);
     };
 }

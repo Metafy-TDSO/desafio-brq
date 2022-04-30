@@ -20,7 +20,7 @@ public class CertificacaoService {
     private SkillService skillService;
 
     public List<Certificacao> findManyBySkillsIds(List<Long> ids) {
-	    return repository.findBySkills_IdIn(ids);
+	return repository.findBySkills_IdIn(ids);
     }
 
     public Certificacao findOrCreateByName(String name, List<Skill> skills) {

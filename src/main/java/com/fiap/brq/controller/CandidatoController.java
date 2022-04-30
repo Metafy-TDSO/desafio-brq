@@ -28,23 +28,23 @@ public class CandidatoController {
     @GetMapping
     public ResponseEntity<List<Candidato>> buscarTudo(@RequestParam(name = "query", required = false) String query,
 	    @RequestParam(name = "skills", required = false) String querySkills) {
-		List<String> skills = new ArrayList<String>();
+	List<String> skills = new ArrayList<String>();
 
-		if (querySkills != null) {
-			skills = Arrays.asList(querySkills.split(","));
-		}
+	if (querySkills != null) {
+	    skills = Arrays.asList(querySkills.split(","));
+	}
 
-		List<Candidato> resultado = this.candidatoService.findAllByQueries(query , skills);
+	List<Candidato> resultado = this.candidatoService.findAllByQueries(query, skills);
 
-		return ResponseEntity.ok().body(resultado);
+	return ResponseEntity.ok().body(resultado);
     }
 
     @PostMapping
-		public ResponseEntity<Candidato> insert(@RequestBody CreateCandidatoDTO reqBody) {
-		Candidato candidato = candidatoService.signUp(reqBody);
+    public ResponseEntity<Candidato> insert(@RequestBody CreateCandidatoDTO reqBody) {
+	Candidato candidato = candidatoService.signUp(reqBody);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(candidato.getId())
-			.toUri();
-		return ResponseEntity.created(uri).body(candidato);
+	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(candidato.getId())
+		.toUri();
+	return ResponseEntity.created(uri).body(candidato);
     }
 }

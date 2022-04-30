@@ -15,13 +15,13 @@ public class SkillService {
     private SkillRepository repository;
 
     public List<Skill> findManyByNames(List<String> skills) {
-		List<String> lowercasedSkills = new ArrayList<>();
+	List<String> lowercasedSkills = new ArrayList<>();
 
-		for (String skill : skills) {
-			lowercasedSkills.add(skill.toLowerCase());
-		}
+	for (String skill : skills) {
+	    lowercasedSkills.add(skill.toLowerCase());
+	}
 
-		return repository.findByNomeSkillInIgnoreCase(lowercasedSkills);
+	return repository.findByNomeSkillInIgnoreCase(lowercasedSkills);
     };
 
     public Skill findOrCreateByName(String name) {

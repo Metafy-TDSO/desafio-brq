@@ -11,13 +11,11 @@ import com.fiap.brq.entities.Candidato;
 
 public interface CandidatoRepository extends JpaRepository<Candidato, Long> {
     boolean existsByEmailOrCpf(String email, String cpf);
-    @Query("SELECT candidato FROM Candidato candidato "
-			+ "WHERE (:query IS NULL OR ("
-                + "UPPER(candidato.nome) LIKE UPPER(CONCAT('%', :query, '%')) "
-                + "OR candidato.email = :query "
-                + "OR candidato.cpf = :query)"
-            + ")"
-	    )
+
+    List<Candidato> findByIdInAndSkills_IdIn(Collection<Long> ids, Collection<Long> ids1);
+
+    @Query("SELECT candidato FROM Candidato candidato " + "WHERE (:query IS NULL OR ("
+	    + "UPPER(candidato.nome) LIKE UPPER(CONCAT('%', :query, '%')) " + "OR candidato.email = :query "
+	    + "OR candidato.cpf = :query)" + ")")
     List<Candidato> findByQuery(@Param("query") String query);
-	List<Candidato> findByIdInAndSkills_IdIn(Collection<Long> ids, Collection<Long> ids1);
 }
