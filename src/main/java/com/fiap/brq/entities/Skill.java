@@ -2,7 +2,7 @@ package com.fiap.brq.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,44 +26,44 @@ public class Skill implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String linguagem;
+    private String nomeSkill;
 
     @ManyToMany(mappedBy = "skills")
     @JsonIgnore
-    private Set<Certificacao> certificacao;
+    private List<Certificacao> certificacao;
 
     @ManyToMany(mappedBy = "skills")
     @JsonIgnore
-    private Set<Candidato> candidatos;
+    private List<Candidato> candidatos;
 
     public Skill() {
 
     }
 
-    public Skill(Long id, Set<Candidato> candidatos, String linguagem) {
+    public Skill(Long id, List<Candidato> candidatos, String nomeSkill) {
 	super();
 	this.id = id;
-	this.linguagem = linguagem;
+	this.nomeSkill = nomeSkill;
 	this.candidatos = candidatos;
     }
 
-    public Skill(Long id, String linguagem) {
+    public Skill(Long id, String nomeSkill) {
 	super();
 	this.id = id;
-	this.linguagem = linguagem;
+	this.nomeSkill = nomeSkill;
     }
 
-    public Skill(Long id, String linguagem, Set<Certificacao> certificacao) {
+    public Skill(Long id, String nomeSkill, List<Certificacao> certificacao) {
 	super();
 	this.id = id;
-	this.linguagem = linguagem;
+	this.nomeSkill = nomeSkill;
 	this.certificacao = certificacao;
     }
 
-    public Skill(Long id, String linguagem, Set<Certificacao> certificacao, Set<Candidato> candidatos) {
+    public Skill(Long id, String nomeSkill, List<Certificacao> certificacao, List<Candidato> candidatos) {
 	super();
 	this.id = id;
-	this.linguagem = linguagem;
+	this.nomeSkill = nomeSkill;
 	this.certificacao = certificacao;
 	this.candidatos = candidatos;
     }
@@ -78,14 +78,14 @@ public class Skill implements Serializable {
 	    return false;
 	Skill other = (Skill) obj;
 	return Objects.equals(candidatos, other.candidatos) && Objects.equals(certificacao, other.certificacao)
-		&& Objects.equals(id, other.id) && Objects.equals(linguagem, other.linguagem);
+		&& Objects.equals(id, other.id) && Objects.equals(nomeSkill, other.nomeSkill);
     }
 
-    public Set<Candidato> getCandidatos() {
+    public List<Candidato> getCandidatos() {
 	return candidatos;
     }
 
-    public Set<Certificacao> getCertificacao() {
+    public List<Certificacao> getCertificacao() {
 	return certificacao;
     }
 
@@ -93,20 +93,20 @@ public class Skill implements Serializable {
 	return id;
     }
 
-    public String getlinguagem() {
-	return linguagem;
+    public String getNomeSkill() {
+	return nomeSkill;
     }
 
     @Override
     public int hashCode() {
-	return Objects.hash(candidatos, certificacao, id, linguagem);
+	return Objects.hash(candidatos, certificacao, id, nomeSkill);
     }
 
-    public void setCandidatos(Set<Candidato> candidatos) {
+    public void setCandidatos(List<Candidato> candidatos) {
 	this.candidatos = candidatos;
     }
 
-    public void setCertificacao(Set<Certificacao> certificacao) {
+    public void setCertificacao(List<Certificacao> certificacao) {
 	this.certificacao = certificacao;
     }
 
@@ -114,7 +114,7 @@ public class Skill implements Serializable {
 	this.id = id;
     }
 
-    public void setlinguagem(String linguagem) {
-	this.linguagem = linguagem;
+    public void setNomeSkill(String nomeSkill) {
+	this.nomeSkill = nomeSkill;
     }
 }

@@ -3,7 +3,7 @@ package com.fiap.brq.entities;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,28 +27,30 @@ public class Candidato implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 11, nullable = false)
     private String cpf;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String genero;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "GMT")
     private Calendar dataNascimento;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tb_candidato_skill", joinColumns = { @JoinColumn(name = "candidato_id") }, inverseJoinColumns = {
 	    @JoinColumn(name = "skill_id") })
-    private Set<Skill> skills;
+    private List<Skill> skills;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tb_candidato_certificacao", joinColumns = {
 	    @JoinColumn(name = "candidato_id") }, inverseJoinColumns = { @JoinColumn(name = "certificacao_id") })
-    private Set<Certificacao> certs;
+    private List<Certificacao> certs;
 
     public Candidato() {
 
@@ -66,7 +68,7 @@ public class Candidato implements Serializable {
     }
 
     public Candidato(Long id, String nome, String cpf, String email, String genero, Calendar dataNascimento,
-	    Set<Skill> skills) {
+	    List<Skill> skills) {
 	super();
 	this.id = id;
 	this.nome = nome;
@@ -78,7 +80,7 @@ public class Candidato implements Serializable {
     }
 
     public Candidato(Long id, String nome, String cpf, String email, String genero, Calendar dataNascimento,
-	    Set<Skill> skills, Set<Certificacao> certs) {
+	    List<Skill> skills, List<Certificacao> certs) {
 	super();
 	this.id = id;
 	this.nome = nome;
@@ -102,7 +104,7 @@ public class Candidato implements Serializable {
 	return Objects.equals(id, other.id);
     }
 
-    public Set<Certificacao> getCerts() {
+    public List<Certificacao> getCerts() {
 	return certs;
     }
 
@@ -130,7 +132,7 @@ public class Candidato implements Serializable {
 	return nome;
     }
 
-    public Set<Skill> getSkills() {
+    public List<Skill> getSkills() {
 	return skills;
     }
 
@@ -139,7 +141,7 @@ public class Candidato implements Serializable {
 	return Objects.hash(id);
     }
 
-    public void setCerts(Set<Certificacao> certs) {
+    public void setCerts(List<Certificacao> certs) {
 	this.certs = certs;
     }
 
@@ -167,7 +169,7 @@ public class Candidato implements Serializable {
 	this.nome = nome;
     }
 
-    public void setSkills(Set<Skill> skills) {
+    public void setSkills(List<Skill> skills) {
 	this.skills = skills;
     }
 }

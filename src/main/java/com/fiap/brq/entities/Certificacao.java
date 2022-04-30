@@ -2,9 +2,10 @@ package com.fiap.brq.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,16 +26,17 @@ public class Certificacao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nomeCertificacao;
 
     @ManyToMany(mappedBy = "certs")
     @JsonIgnore
-    private Set<Candidato> candidato;
+    private List<Candidato> candidato;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tb_skill_certificacao", joinColumns = {
 	    @JoinColumn(name = "certificacao_id") }, inverseJoinColumns = { @JoinColumn(name = "skill_id") })
-    private Set<Skill> skills;
+    private List<Skill> skills;
 
     public Certificacao() {
 
@@ -46,7 +48,7 @@ public class Certificacao implements Serializable {
 	this.nomeCertificacao = nomeCertificacao;
     }
 
-    public Certificacao(Long id, String nomeCertificacao, Set<Skill> skills) {
+    public Certificacao(Long id, String nomeCertificacao, List<Skill> skills) {
 	super();
 	this.id = id;
 	this.nomeCertificacao = nomeCertificacao;
@@ -73,7 +75,7 @@ public class Certificacao implements Serializable {
 	return nomeCertificacao;
     }
 
-    public Set<Skill> getSkills() {
+    public List<Skill> getSkills() {
 	return skills;
     }
 
@@ -90,7 +92,7 @@ public class Certificacao implements Serializable {
 	this.nomeCertificacao = nomeCertificacao;
     }
 
-    public void setSkills(Set<Skill> skills) {
+    public void setSkills(List<Skill> skills) {
 	this.skills = skills;
     }
 }
