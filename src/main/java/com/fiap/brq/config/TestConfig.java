@@ -39,6 +39,7 @@ public class TestConfig implements CommandLineRunner {
 
 	List<Skill> jsSimple = new ArrayList<>();
 	jsSimple.add(js);
+	jsSimple.add(scrum);
 
 	List<Skill> javaBackend = new ArrayList<>();
 	javaBackend.add(scrum);
@@ -72,7 +73,6 @@ public class TestConfig implements CommandLineRunner {
 	certsEnzo.add(jsCert);
 
 	List<Certificacao> certsGuilherme = new ArrayList<>();
-	certsGuilherme.add(javaCert);
 	certsGuilherme.add(tsCert);
 	certsGuilherme.add(jsCert);
 	certsGuilherme.add(scrumCert);

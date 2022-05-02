@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +36,9 @@ public class CandidatoController {
 	    skills = Arrays.asList(querySkills.split(","));
 	}
 
-	List<Candidato> resultado = this.candidatoService.findAllByQueries(query, skills);
+	Set<Candidato> resultado = this.candidatoService.findAllByQueries(query, skills);
 
-	return ResponseEntity.ok().body(resultado);
+	return ResponseEntity.ok().body(resultado.stream().collect(Collectors.toList()));
     }
 
     @PostMapping

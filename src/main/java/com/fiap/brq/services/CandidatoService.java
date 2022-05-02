@@ -1,13 +1,8 @@
 package com.fiap.brq.services;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -37,16 +32,16 @@ public class CandidatoService {
 	return repository.findAll();
     }
 
-    public List<Candidato> findAllByQueries(String query, List<String> skills) {
+    public Set<Candidato> findAllByQueries(String query, List<String> skills) {
 	List<Long> skillsIds = new ArrayList<Long>();
 	List<Long> certsIds = new ArrayList<Long>();
 
 	if ((query == null || query.isEmpty()) && skills.isEmpty()) {
 	    List<Candidato> foundCandidatos = repository.findAll(Sort.by(Sort.Direction.ASC, "nome"));
 
-	    this.sortCandidatos(foundCandidatos, certsIds);
+	    this.sortCandidatos(foundCandidatos.stream().collect(Collectors.toList()), certsIds);
 
-	    return foundCandidatos;
+	    return new HashSet<Candidato>(foundCandidatos);
 	}
 
 	if (!skills.isEmpty()) {
@@ -66,7 +61,7 @@ public class CandidatoService {
 	    }
 	}
 
-	List<Candidato> foundCandidatos = repository.findByQuery(query);
+	Set<Candidato> foundCandidatos = repository.findByQuery(query);
 
 	if (!skillsIds.isEmpty()) {
 	    List<Long> candidatosIds = new ArrayList<Long>();
@@ -74,10 +69,19 @@ public class CandidatoService {
 		candidatosIds.add(candidato.getId());
 	    }
 
-	    foundCandidatos = repository.findByIdInAndSkills_IdIn(candidatosIds, skillsIds);
+	    foundCandidatos = repository.findByIdInAndSkillsIds(candidatosIds, skillsIds);
+
+		foundCandidatos = foundCandidatos.stream().filter(candidato -> {
+			List<Skill> candidatoSkills = candidato.getSkills();
+			List<Long> candidatoSkillsIds = candidatoSkills.stream().map(skill -> skill.getId()).collect(Collectors.toList());
+
+			System.out.println("$$$ SkillsIds: " + skillsIds + ", Candidato skills: " + candidatoSkillsIds + ", Condition: " + candidatoSkillsIds.containsAll(skillsIds));
+
+			return candidatoSkillsIds.containsAll(skillsIds);
+		}).collect(Collectors.toSet());
 	}
 
-	this.sortCandidatos(foundCandidatos, certsIds);
+	this.sortCandidatos(foundCandidatos.stream().collect(Collectors.toList()), certsIds);
 
 	return foundCandidatos;
     }
